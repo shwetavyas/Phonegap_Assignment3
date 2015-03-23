@@ -28,7 +28,7 @@
           document.getElementById("output").innerHTML = "Minimum Temperature of today is: " + (openWeatherResult.list[0].temp.min  - 273)+ " C<br/>"+"Maximum Temperature of today is: " + (openWeatherResult.list[0].temp.max - 273) +" C<br/>" +"<img src='http://openweathermap.org/img/w/" +openWeatherResult.list[0].weather[0].icon + ".png' alt=''></img> <hr> <br/> ";
           
           $('#fiveDays').append("<h3>Next Five Days Forecast:<h3><br/>");
-          for(i=0;i<5;i++){
+          for(i=1;i<6;i++){
             $('#fiveDays').append("Minimum Temperature of day "+ i+" is: " + (openWeatherResult.list[i].temp.min - 273) + " C<br/>"+"Maximum Temperature of day"+i+" is: " + (openWeatherResult.list[i].temp.max - 273) +" C<br/>" +"<img src='http://openweathermap.org/img/w/" + openWeatherResult.list[i].weather[0].icon + ".png' alt=''></img> <hr> <br/>");
             }
           });
@@ -95,7 +95,7 @@ function showPosition(position) {
       <div data-role="navbar">
         <ul>
           <li><a href="#homeScreen">Home</a></li>
-          <li><a href="#getWeatherOfCity">Weather of City</a></li>
+          <li><a href="#getWeatherOfCity">Get Weather</a></li>
           <li><a href="#myLocation">My Location</a></li>
         </ul>
       </div>
@@ -115,11 +115,11 @@ function showPosition(position) {
 
 	<div id="getWeatherOfCity" data-role="page">
     <header data-role="header" data-position="fixed" data-id="appHeader">
-      <h1>Weather just a click away!</h1>
+      <h1>Get Weather</h1>
       <div data-role="navbar">
         <ul>
           <li><a href="#homeScreen">Home</a></li>
-          <li><a href="#getWeatherOfCity">Weather of City</a></li>
+          <li><a href="#getWeatherOfCity">Get Weather</a></li>
           <li><a href="#myLocation">My Location</a></li>
         </ul>
       </div>
@@ -149,7 +149,7 @@ function showPosition(position) {
       <div data-role="navbar">
         <ul>
           <li><a href="#homeScreen">Home</a></li>
-          <li><a href="#getWeatherOfCity">Weather of City</a></li>
+          <li><a href="#getWeatherOfCity">Get Weather</a></li>
           <li><a href="#myLocation">My Location</a></li>
         </ul>
       </div>
