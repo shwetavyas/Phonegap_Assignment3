@@ -1,0 +1,178 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>Credit Card Validation</title>
+  <link rel="stylesheet"  href="css/jquery.mobile.min.css">
+  <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true"></script>
+
+<script type="text/javascript">
+
+  function getWeather(form1){
+    document.getElementById('output').innerHTML = "";
+    document.getElementById('fiveDays').innerHTML = "";
+    var city = document.getElementById("city").value;
+    if(city.length == '0'){
+      document.getElementById("output").innerHTML = "Please enter the name of city!";
+    }
+    else{
+    //alert(city);
+    var url = "http://api.openweathermap.org/data/2.5/forecast/daily?q="+city+",usa&mode=json";
+    //alert(url);
+    $.getJSON(url, function (openWeatherResult){
+          if(openWeatherResult.message == ""){
+            document.getElementById('output').innerHTML = "Not a valid USA city. Please enter a USA city name."
+            exit();
+          }
+          //alert(openWeatherResult.list[0].weather[0].icon);
+          document.getElementById("output").innerHTML = "Minimum Temperature of today is: " + (openWeatherResult.list[0].temp.min  - 273)+ " C<br/>"+"Maximum Temperature of today is: " + (openWeatherResult.list[0].temp.max - 273) +" C<br/>" +"<img src='http://openweathermap.org/img/w/" +openWeatherResult.list[0].weather[0].icon + ".png' alt=''></img> <hr> <br/> ";
+          
+          $('#fiveDays').append("<h3>Next Five Days Forecast:<h3><br/>");
+          for(i=0;i<5;i++){
+            $('#fiveDays').append("Minimum Temperature of day "+ i+" is: " + (openWeatherResult.list[i].temp.min - 273) + " C<br/>"+"Maximum Temperature of day"+i+" is: " + (openWeatherResult.list[i].temp.max - 273) +" C<br/>" +"<img src='http://openweathermap.org/img/w/" + openWeatherResult.list[i].weather[0].icon + ".png' alt=''></img> <hr> <br/>");
+            }
+          });
+  }
+    return false;
+  } 
+	
+  function getLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(showPosition);
+  } else {
+    alert("Geolocation is not supported by this browser.");
+  }
+  return false;
+}
+function showPosition(position) {
+  var lat = position.coords.latitude;
+  var lng = position.coords.longitude;
+  //map.setCenter(new google.maps.LatLng(lat, lng));
+  document.getElementById('my').innerHTML = "My location coordinates are:";
+  document.getElementById('lat').innerHTML = "latitude is:"+lat;
+  document.getElementById('lng').innerHTML = "longitude is:"+lng;
+}
+  
+</script>
+<style>
+    #homeBanner {
+      width: 100%;
+    }
+    .center {
+      text-align: center;
+      margin-left: auto;
+      margin-right:auto;
+    }
+    .banner {
+      display:block;
+      width: 100%;
+    }
+    
+    #map2 {
+      margin-left: auto;
+      margin-right:auto;
+      width: 320px;
+      height: 320px;  
+    }
+    #output{
+      color: red;
+    }
+  </style>
+  <link rel="stylesheet" href="css/leaflet.css" />
+  <script src="js/jquery.js"></script>
+  <script src="js/map.js"></script>
+  <script src="js/jquery.mobile.min.js"></script>
+  <script src="js/leaflet.js"></script>
+  <script src="js/app.js"></script>
+  <!--<script src="phonegap.js"></script>-->
+  <!--<script src="barcodescanner.js"></script>-->
+</head>
+<body>
+  
+  <div id="homeScreen" data-role="page">
+    <header data-role="header" data-position="fixed" data-id="appHeader">
+      <h1>Weather App</h1>
+      <div data-role="navbar">
+        <ul>
+          <li><a href="#homeScreen">Home</a></li>
+          <li><a href="#getWeatherOfCity">Weather of City</a></li>
+          <li><a href="#myLocation">My Location</a></li>
+        </ul>
+      </div>
+     <!-- <a href="#homeScreen" class="ui-btn ui-icon-carat-l ui-btn-icon-notext ui-btn-left ui-nodisc-icon ui-alt-icon">Back</a>-->
+    </header>
+
+    <div data-role="content">
+        <ul data-role="listview" data-inset="true" class="ui-nodisc-icon ui-alt-icon">
+          <li><a href="#getWeatherOfCity">Weather of any city</a></li>
+          <li><a href="#myLocation">Get My Location</a></li>
+        </ul>
+    </div>
+    <footer data-role="footer" data-position="fixed" data-id="appFooter">
+          <h5>Copyright Shweta Vyas - IT 354</h1>
+    </footer>
+  </div>
+
+	<div id="getWeatherOfCity" data-role="page">
+    <header data-role="header" data-position="fixed" data-id="appHeader">
+      <h1>Weather just a click away!</h1>
+      <div data-role="navbar">
+        <ul>
+          <li><a href="#homeScreen">Home</a></li>
+          <li><a href="#getWeatherOfCity">Weather of City</a></li>
+          <li><a href="#myLocation">My Location</a></li>
+        </ul>
+      </div>
+    </header>
+  
+    <div data-role="content">
+      
+        <form onsubmit="return getWeather(this)" method="post">
+          <label for="credit">Enter the name of City:</label>
+          <input type="text" value="" id ='city' name="city" placeholder="City"></input>
+          <button class="" type="submit" name="submit" value="Submit">Submit</button>
+          
+        </form>
+        <div name="output" id="output"></div>
+        <div name="fiveDays" id="fiveDays"></div>
+    </div>
+
+    <footer data-role="footer" data-position="fixed" data-id="appHeader">
+      <h5>Copyright Shweta Vyas - IT 354</h1>
+     <!-- <a href="#homeScreen" class="ui-btn ui-icon-carat-l ui-btn-icon-notext ui-btn-left ui-nodisc-icon ui-alt-icon">Back</a>-->
+    </footer>
+  </div>
+  
+  <div id="myLocation" data-role="page">
+    <header data-role="header" data-position="fixed" data-id="appHeader">
+      <h1>My Location</h1>
+      <div data-role="navbar">
+        <ul>
+          <li><a href="#homeScreen">Home</a></li>
+          <li><a href="#getWeatherOfCity">Weather of City</a></li>
+          <li><a href="#myLocation">My Location</a></li>
+        </ul>
+      </div>
+    </header>
+  
+    <div data-role="content">
+      
+        <form onsubmit="return getLocation()" method="post">
+          
+          <button class="" type="submit" name="submit" value="">Get Location</button>
+
+        </form>
+        <div id="my"></div>
+        <div id="lat"></div>
+        <div id="lng"></div>
+        
+    </div>
+    <footer data-role="footer" data-position="fixed" data-id="appHeader">
+    <h5>Copyright Shweta Vyas - IT 354</h1>
+   <!-- <a href="#homeScreen" class="ui-btn ui-icon-carat-l ui-btn-icon-notext ui-btn-left ui-nodisc-icon ui-alt-icon">Back</a>-->
+  </footer>
+  </div>
+
+
+</body>
+</html>
